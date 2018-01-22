@@ -3,6 +3,9 @@ lua-sass
 
 This fork is mostly unchanged from [craigbarnes/lua-sass](https://github.com/craigbarnes/lua-sass) except that it uses CMake for compilation and therefore gets Windows support for free.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/30hr58dq6c9tsgi5?svg=true)](https://ci.appveyor.com/project/squeek502/lua-sass)
+[![Build Status](https://travis-ci.org/squeek502/lua-sass.svg?branch=master)](https://travis-ci.org/squeek502/lua-sass)
+
 Lua bindings for [libsass].
 
 Requirements
