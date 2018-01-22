@@ -1,55 +1,45 @@
 lua-sass
 ========
 
+This fork is mostly unchanged from [craigbarnes/lua-sass](https://github.com/craigbarnes/lua-sass) except that it uses CMake for compilation and therefore gets Windows support for free.
+
 Lua bindings for [libsass].
 
 Requirements
 ------------
 
 * C99 compiler
-* [GNU Make]
-* [Lua] 5.1/5.2 or [LuaJIT] 2
-* [libsass]
+* [CMake]
+* [Lua] or [LuaJIT]
 
 Installation
 ------------
 
-For systems where Lua and libsass are installed globally (i.e. via a
-package manager), the following commands should usually suffice:
+First, clone this repository, making sure to initialize the submodule (`git submodule update --init`).
 
-    make
-    make check
-    [sudo] make install
+### On Windows
+Open a command line in the `lua-sass` directory and do the following:
+```sh
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release --target install
+```
+If needed, you can specify a [generator](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) by doing `cmake -G "Visual Studio 14 2015 Win64" ..` instead of `cmake ..`
 
-The Makefile consults [pkg-config] for the following variables:
+*Note: On Windows, you'll need to have a Lua static library available that [can be found by `cmake`](https://cmake.org/cmake/help/v3.0/module/FindLua.html) (preferably built with the same compiler you're using to build sleep).*
 
-* `SASS_CFLAGS`: compiler flags required to find the libsass headers.
-* `SASS_LDFLAGS`: linker flags required to find the libsass library.
-* `SASS_LDLIBS`: linker flags for linking to the libsass library.
-* `LUA_CFLAGS`: compiler flags required to find the Lua headers.
-* `LUA_CMOD_DIR`: the directory in which to install the compiled module.
+### On Linux
+From the `lua-sass` directory, do the following:
+```sh
+mkdir build && cd build
+cmake ..
+make
+make install
+```
 
-... using the first `lua*.pc` file found from the following list:
-
-    lua52 lua5.2 lua-5.2 lua51 lua5.1 lua-5.1 lua luajit
-
-If you have more than one of these files present and wish to build
-against a specific version of Lua, set the `LUA_PC` variable
-accordingly, for example:
-
-    make LUA_PC=luajit
-    make check LUA_PC=luajit
-    [sudo] make install LUA_PC=luajit
-
-If you don't have [pkg-config] or the relevant `.pc` files installed,
-you may need to specify some variables manually, for example:
-
-    make LUA_CFLAGS=-I/usr/include/lua5.2 SASS_CFLAGS=-I/usr/include/libsass
-    make check
-    [sudo] make install LUA_CMOD_DIR=/usr/lib/lua/5.2
-
-For convenience, the Makefile first tries to load a `local.mk` file,
-which can be used to store persistent variable overrides.
+### Building against a shared libsass
+By default, libsass will be built and linked statically. However, the CMake option `WITH_SHARED_LIBSASS` can be turned on to build against an existing shared library of libsass. Note: this has only been tested on Windows so far.
 
 Usage
 -----
@@ -109,7 +99,7 @@ end
 
 
 [libsass]: https://github.com/hcatlin/libsass
-[GNU Make]: https://www.gnu.org/software/make/
+[CMake]: https://cmake.org/
 [Lua]: http://www.lua.org/
 [LuaJIT]: http://luajit.org/
 [pkg-config]: https://en.wikipedia.org/wiki/Pkg-config

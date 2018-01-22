@@ -4,3 +4,5 @@ lua-sass-*.tar.gz
 lua-sass-*.zip
 local.mk
 tags
+build
+*.dll

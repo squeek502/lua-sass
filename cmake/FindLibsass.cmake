@@ -1,0 +1,11 @@
+# Locate libsass library
+# This module defines
+#  LIBSASS_FOUND, if false, do not try to link to libuv
+#  LIBSASS_LIBRARIES
+#  LIBSASS_INCLUDE_DIR, where to find sass.h
+
+FIND_PATH(LIBSASS_INCLUDE_DIR NAMES sass.h)
+FIND_LIBRARY(LIBSASS_LIBRARIES NAMES libsass)
+
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(LIBSASS DEFAULT_MSG LIBSASS_LIBRARIES LIBSASS_INCLUDE_DIR)
