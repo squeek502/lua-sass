@@ -27,3 +27,4 @@ PREPEND( LIBSASS_CSRC "${LIBSASS_SRC_DIR}" )
 
 add_library( libsass STATIC ${LIBSASS_SRC} ${LIBSASS_CSRC} )
 target_include_directories( libsass PUBLIC ${LIBSASS_INCLUDE_DIR} )
+set_property(TARGET libsass PROPERTY CXX_STANDARD 11)
