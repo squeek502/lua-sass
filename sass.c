@@ -1,6 +1,6 @@
 /*
  Lua bindings for the libsass library.
- Copyright (c) 2012-2015 Craig Barnes
+ Copyright (c) 2012-2018 Craig Barnes
 
  Permission to use, copy, modify, and/or distribute this software for any
  purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +16,6 @@
 */
 
 #include <stddef.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sass/context.h>
@@ -35,11 +34,15 @@ static const char *const output_styles[] = {
 static int compile(lua_State *L) {
     size_t len;
     const char *str = luaL_checklstring(L, 1, &len);
+    const int output_style = luaL_checkoption(L, 2, "nested", output_styles);
+    struct Sass_Data_Context *data_ctx;
+    struct Sass_Context *ctx;
+    struct Sass_Options *options;
 
-    // libsass insists on owning (and freeing) the passed in string,
-    // so the string on the Lua heap must be copied here.
+    /* libsass insists on owning (and freeing) the passed in string,
+       so the string on the Lua heap must be copied here */
     char *copy = malloc(len + 1);
-    if (!copy) {
+    if (copy == NULL) {
         lua_pushnil(L);
         lua_pushliteral(L, "malloc() failed");
         return 2;
@@ -47,10 +50,9 @@ static int compile(lua_State *L) {
     strncpy(copy, str, len);
     copy[len] = '\0';
 
-    const int output_style = luaL_checkoption(L, 2, "nested", output_styles);
-    struct Sass_Data_Context *data_ctx = sass_make_data_context(copy);
-    struct Sass_Context *ctx = sass_data_context_get_context(data_ctx);
-    struct Sass_Options *options = sass_context_get_options(ctx);
+    data_ctx = sass_make_data_context(copy);
+    ctx = sass_data_context_get_context(data_ctx);
+    options = sass_context_get_options(ctx);
     sass_option_set_output_style(options, output_style);
     if (sass_compile_data_context(data_ctx) == 0) {
         lua_pushstring(L, sass_context_get_output_string(ctx));

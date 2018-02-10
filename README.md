@@ -11,7 +11,7 @@ Lua bindings for [libsass].
 Requirements
 ------------
 
-* C99 compiler
+* C compiler
 * [CMake]
 * [Lua] or [LuaJIT]
 
@@ -105,5 +105,4 @@ end
 [CMake]: https://cmake.org/
 [Lua]: http://www.lua.org/
 [LuaJIT]: http://luajit.org/
-[pkg-config]: https://en.wikipedia.org/wiki/Pkg-config
 [SCSS]: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax
